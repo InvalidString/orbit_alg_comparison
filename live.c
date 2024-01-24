@@ -227,6 +227,10 @@ void update(void* state_void){
         || screen_height != state->trail_tex.texture.height){
         UnloadRenderTexture(state->trail_tex);
         state->trail_tex = LoadRenderTexture(screen_width, screen_height);
+
+        BeginTextureMode(state->trail_tex);
+        ClearBackground(BLACK);
+        EndTextureMode();
     }
 
     BeginDrawing();
