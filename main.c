@@ -51,6 +51,7 @@ void reload(){
 
 int main(){
 
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(WIDTH, HEIGHT, "Voll Grafik");
     SetTargetFPS(60);
 
