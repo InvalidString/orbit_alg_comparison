@@ -147,20 +147,19 @@ static struct{
     //{100,   YELLOW, euler },
     //{1000,  GREEN,  euler },
     //{10000, BLUE,   euler },
-    //{1,     PURPLE, euler2},
+    //{1,     LIME, euler2},
     //{10,    MAGENTA,euler2},
     //{100,   VIOLET, euler2},
-    //{100,   BROWN, verlet},
+    //{10,   BROWN, verlet},
 
 
     {100,   YELLOW, euler },
     {1000,  GREEN,  euler },
-    {1,     RED, heun},
+    {1,     RED, runge_kutta},
     {10,    PINK,heun},
     {100,   VIOLET, heun},
-    {1000, BLUE,   euler },
-    {10, ORANGE, runge_kutta},
-    {1000, YELLOW, runge_kutta},
+    {10,    ORANGE, runge_kutta},
+    {1000,  BLUE, runge_kutta},
 };
 
 typedef struct{
@@ -249,6 +248,7 @@ void update(void* state_void){
     for (int w = 0; w < state->warp; w++) {
     for (int p = 0; p < ARRLEN(single_step_config); p++){
         Particle* particle = &state->single_step[p];
+        Vector2 old_pos = particle->pos;
         int steps = single_step_config[p].steps;
 
         float dt = 1.0/(60.0*steps);
@@ -262,16 +262,11 @@ void update(void* state_void){
             float G = 10000000;
             fn(particle, dt, gravity, &G);
         }
+
+        Color c = single_step_config[p].color;
+        DrawLineEx(old_pos, state->single_step[p].pos, 3, c);
+        //DrawCircleV(state->single_step[p].pos, 3, c);
     }
-
-
-        for (int p = 0; p < ARRLEN(single_step_config); p++){
-
-            Color c = single_step_config[p].color;
-            DrawCircleV(state->single_step[p].pos, 3, c);
-        }
-        DrawCircleV((Vector2){0}, 10, WHITE);
-
 
     }
 
